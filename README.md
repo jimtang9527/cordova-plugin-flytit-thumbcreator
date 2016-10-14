@@ -10,7 +10,7 @@ cordova plugin add cordova-plugin-flytit-thumbcreator
 
 
 * [ThumbCreator](#thumbCreator)
-  * [.createThumb(fromUri, folderToSaveThumb, successCallback, errorCallback)](#thumbCreator.createThumb)
+  * [.createThumb(fromUri, successCallback, errorCallback)](#thumbCreator.createThumb)
   
   <a name="thumbCreator"></a>
 ## ThumbCreator
