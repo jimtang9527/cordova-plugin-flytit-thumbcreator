@@ -43,17 +43,10 @@ public class ThumbCreator extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callback) throws JSONException {
 
         String fromPath = args.getString(0);
-        String toPath = args.getString(1);
 
         if(fromPath.startsWith("file://")) {
             fromPath = fromPath.substring(6);
         }
-        if(toPath.startsWith("file://")) {
-            toPath = toPath.substring(6);
-        }
-        System.out.println(fromPath);
-        System.out.println(toPath);
-
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -62,16 +55,16 @@ public class ThumbCreator extends CordovaPlugin {
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, ThumbCreator.width, ThumbCreator.height);
 
-
+            Log.i("thumbnailSallImage",fromPath+" existed");
+ 
             OutputStream fOut = null;
-            File folder = new File(toPath);
-            if(!folder.exists()) {
-                folder.mkdir();
-            }
-            File targetFile = new File(toPath + "_thumb_" +file.getName());
-            if(!targetFile.exists()) {
-                targetFile.createNewFile();
-            }
+ 
+            File sourceFile = new File(fromPath);
+            String fileName = sourceFile.getName();
+            int index = fileName.lastIndexOf('.');
+            String name = fileName.substring(0, index);
+            String ext = fileName.substring(index);
+            File targetFile = File.createTempFile("thumb_" + name, ext);
 
             if(targetFile.exists()) {
                 fOut = new FileOutputStream(targetFile);
@@ -96,4 +89,3 @@ public class ThumbCreator extends CordovaPlugin {
         }
     }
  }
-
